@@ -211,14 +211,26 @@ function solicitarJugador() {
  * @return string
  */
 function obtenerPalabraNoJugadas($coleccionPalabras, $coleccionPartidas) {
-    $palabrasJugadas = array_column($coleccionPartidas, "palabraWordix");
+    $palabrasJugadas = [];
+    foreach ($coleccionPartidas as $partida) {
+        $palabrasJugadas[] = $partida["palabraWordix"]; // Extraer palabras jugadas
+    }
+
     foreach ($coleccionPalabras as $palabra) {
-        if (!in_array($palabra, $palabrasJugadas)) {
-            return $palabra;
+        $yaJugada = false;
+        foreach ($palabrasJugadas as $jugada) {
+            if ($palabra === $jugada) {
+                $yaJugada = true;
+                break;
+            }
+        }
+        if (!$yaJugada) {
+            return $palabra; // Retornar la primera palabra no jugada
         }
     }
-    return null; // Retorna null si no hay palabras disponibles
+    return null; // Retornar null si no hay palabras disponibles
 }
+
 
 /**
  * Permite al jugador elegir una palabra disponible ingresando un número.
@@ -241,7 +253,14 @@ function elegirPalabraNoJugadasPorJugador($coleccionPalabras, $coleccionPartidas
     echo "Palabras disponibles:\n";
     $palabrasDisponibles = [];
     foreach ($coleccionPalabras as $indice => $palabra) {
-        if (!in_array($palabra, $palabrasJugadasPorJugador)) {
+        $yaJugada = false;
+        foreach ($palabrasJugadasPorJugador as $jugada) {
+            if ($palabra === $jugada) {
+                $yaJugada = true;
+                break;
+            }
+        }
+        if (!$yaJugada) {
             $palabrasDisponibles[$indice] = $palabra;
             echo "$indice: $palabra\n";
         }
@@ -253,7 +272,7 @@ function elegirPalabraNoJugadasPorJugador($coleccionPalabras, $coleccionPartidas
         $numero = solicitarNumeroEntre(0, count($coleccionPalabras) - 1);
 
         if (isset($palabrasDisponibles[$numero])) {
-            return $palabrasDisponibles[$numero];
+            return $palabrasDisponibles[$numero]; // Devuelve la palabra seleccionada
         } else {
             echo "El número ingresado no corresponde a una palabra disponible. Intente nuevamente.\n";
         }
@@ -347,7 +366,8 @@ do {
             break;
 
         case 8: // Salir
-            echo "Saliendo del programa...\n";
+            echo "\n********** GRACIAS POR JUGAR WORDIX **********\n";
+            echo "Saliendo del programa...\n\n";
             break;
     }
 } while ($opcion != 8);
