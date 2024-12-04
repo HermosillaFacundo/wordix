@@ -92,17 +92,20 @@ function solicitarNumeroEntre($min, $max) {
 }
 
 /**
- * Agrega una palabra a la colección de palabras.
+ * Agrega una palabra a la colección de palabras si no está repetida.
  * @param array $coleccionPalabras
  * @param string $palabra
  * @return array
  */
 function agregarPalabra($coleccionPalabras, $palabra) {
-    if (strlen($palabra) == 5 && ctype_alpha($palabra)) {
-        $coleccionPalabras[] = strtoupper($palabra);
+    $palabra = strtoupper($palabra); // Normalizar a mayúsculas
+    if (in_array($palabra, $coleccionPalabras)) {
+        echo "La palabra ya está en la colección. Ingrese otra.\n";
+    } elseif (strlen($palabra) == 5 && ctype_alpha($palabra)) {
+        $coleccionPalabras[] = $palabra; // Agregar palabra si es válida
         echo "Palabra agregada correctamente.\n";
     } else {
-        echo "La palabra debe tener 5 letras.\n";
+        echo "La palabra debe tener 5 letras\n";
     }
     return $coleccionPalabras;
 }
@@ -361,9 +364,13 @@ do {
             break;
 
         case 7: // Agregar una palabra
-            $nuevaPalabra = leerPalabra5Letras();
-            $coleccionPalabras = agregarPalabra($coleccionPalabras, $nuevaPalabra);
+            do {
+                $nuevaPalabra = leerPalabra5Letras();
+                $coleccionOriginal = $coleccionPalabras;
+                $coleccionPalabras = agregarPalabra($coleccionPalabras, $nuevaPalabra);
+            } while ($coleccionOriginal === $coleccionPalabras); // Repetir si no se agregó una nueva palabra
             break;
+            
 
         case 8: // Salir
             echo "\n********** GRACIAS POR JUGAR WORDIX **********\n";
