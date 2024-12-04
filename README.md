@@ -10,4 +10,4 @@ Universidad Nacional del Comahue
 
 # Integrantes del grupo 
 
-**Hermosilla Facundo** - Legajo: FAI-5589 - mail: facundohermosillaunco@gmail.com - GitHub: HermosillaFacundo
+**Hermosilla Facundo** - Legajo: FAI-5589 - mail: facundohermosillaunco@gmail.com - GitHub: HermosillaFacundo 
