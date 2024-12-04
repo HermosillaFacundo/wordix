@@ -19,14 +19,14 @@ function cargarColeccionPalabras() {
 }
 
 /**
- * Muestra el resultado de una partida de manera legible.
+ * Muestra el resultado de una partida.
  * @param array $partida
  */
 function mostrarResultadoPartida($partida) {
     echo "\n********** RESULTADO DE LA PARTIDA **********\n";
     echo "Palabra Wordix: " . $partida["palabraWordix"] . "\n";
     echo "Jugador: " . $partida["jugador"] . "\n";
-    if ($partida["intentos"] > 0) {
+    if ($partida["intentos"] > 0 && $partida["intentos"] < 7) {
         echo "Intentos: " . $partida["intentos"] . "\n";
         echo "Puntaje: " . $partida["puntaje"] . "\n";
         echo "Resultado: ¡Ganaste!\n";
@@ -211,7 +211,7 @@ function solicitarJugador() {
  * @return string
  */
 function obtenerPalabraNoJugadas($coleccionPalabras, $coleccionPartidas) {
-    $palabrasJugadas = array_column($coleccionPartidas, "palabraWordix"); // Extraer palabras jugadas
+    $palabrasJugadas = array_column($coleccionPartidas, "palabraWordix");
     foreach ($coleccionPalabras as $palabra) {
         if (!in_array($palabra, $palabrasJugadas)) {
             return $palabra;
@@ -253,7 +253,7 @@ function elegirPalabraNoJugadasPorJugador($coleccionPalabras, $coleccionPartidas
         $numero = solicitarNumeroEntre(0, count($coleccionPalabras) - 1);
 
         if (isset($palabrasDisponibles[$numero])) {
-            return $palabrasDisponibles[$numero]; // Devuelve la palabra seleccionada
+            return $palabrasDisponibles[$numero];
         } else {
             echo "El número ingresado no corresponde a una palabra disponible. Intente nuevamente.\n";
         }
@@ -268,9 +268,9 @@ function elegirPalabraNoJugadasPorJugador($coleccionPalabras, $coleccionPartidas
 function mostrarPartidasOrdenadas(&$coleccionPartidas) {
     uasort($coleccionPartidas, function ($partida1, $partida2) {
         if ($partida1["jugador"] === $partida2["jugador"]) {
-            return strcmp($partida1["palabraWordix"], $partida2["palabraWordix"]); // Ordena por palabra
+            return strcmp($partida1["palabraWordix"], $partida2["palabraWordix"]);
         }
-        return strcmp($partida1["jugador"], $partida2["jugador"]); // Ordena por jugador
+        return strcmp($partida1["jugador"], $partida2["jugador"]); 
     });
     print_r($coleccionPartidas);
 }
@@ -293,11 +293,11 @@ do {
                 echo "No quedan palabras disponibles para jugar.\n";
                 break;
             }
-            $jugador = solicitarJugador(); // Pedir el nombre del jugador
+            $jugador = solicitarJugador(); 
             $palabra = elegirPalabraNoJugadasPorJugador($coleccionPalabras, $coleccionPartidas, $jugador);
             $partida = jugarWordix($palabra, $jugador);
             mostrarResultadoPartida($partida);
-            $coleccionPartidas[] = $partida; // Guardar la partida en la colección
+            $coleccionPartidas[] = $partida;
             break;
         
         case 2: // Jugar con una palabra aleatoria

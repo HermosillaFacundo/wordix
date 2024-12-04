@@ -27,28 +27,6 @@ const ESTADO_LETRA_PERTENECE = "pertenece";
 /**************************************/
 
 /**
- *  ****COMPLETAR*****
- 
-function solicitarNumeroEntre($min, $max)
-{
-    //int $numero
-
-    $numero = trim(fgets(STDIN));
-
-    if (is_numeric($numero)) { //determina si un string es un número. puede ser float como entero.
-        $numero  = $numero * 1; //con esta operación convierto el string en número.
-    }
-    while (!(is_numeric($numero) && (($numero == (int)$numero) && ($numero >= $min && $numero <= $max)))) {
-        echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
-        $numero = trim(fgets(STDIN));
-        if (is_numeric($numero)) {
-            $numero  = $numero * 1;
-        }
-    }
-    return $numero;
-}
-*/
-/**
  * Escrbir un texto en color ROJO
  * @param string $texto)
  */
@@ -120,50 +98,54 @@ function escribirSegunEstado($texto, $estado)
 }
 
 /**
- * ****COMPLETAR*****
- */
+* Muestra un mensaje de bienvenida al usuario con su nombre en amarillo.
+* @param string $usuario Nombre del usuario.
+*/
 function escribirMensajeBienvenida($usuario)
 {
-    echo "***************************************************\n";
-    echo "** Hola ";
-    escribirAmarillo($usuario);
-    echo " Juguemos una PARTIDA de WORDIX! **\n";
-    echo "***************************************************\n";
+   echo "***************************************************\n";
+   echo "** Hola ";
+   escribirAmarillo($usuario); 
+   echo ", juguemos una PARTIDA de WORDIX! **\n";
+   echo "***************************************************\n";
 }
 
 
 /**
- * ****COMPLETAR*****
+ * Verifica si una cadena contiene únicamente letras.
+ * @param string $cadena Cadena a verificar.
+ * @return bool True si la cadena contiene solo letras, False en caso contrario.
  */
 function esPalabra($cadena)
 {
-    //int $cantCaracteres, $i, boolean $esLetra
     $cantCaracteres = strlen($cadena);
     $esLetra = true;
     $i = 0;
+
     while ($esLetra && $i < $cantCaracteres) {
-        $esLetra =  ctype_alpha($cadena[$i]);
+        $esLetra = ctype_alpha($cadena[$i]); 
         $i++;
     }
     return $esLetra;
 }
 
+
 /**
- *  ****COMPLETAR*****
+ * Solicita al usuario ingresar una palabra de 5 letras.
+ * @return string Palabra de 5 letras en mayúsculas.
  */
 function leerPalabra5Letras()
 {
-    //string $palabra
     echo "Ingrese una palabra de 5 letras: ";
-    $palabra = trim(fgets(STDIN));
-    $palabra  = strtoupper($palabra);
+    $palabra = strtoupper(trim(fgets(STDIN)));
 
     while ((strlen($palabra) != 5) || !esPalabra($palabra)) {
-        echo "Debe ingresar una palabra de 5 letras:";
+        echo "Error: Debe ingresar una palabra válida de 5 letras. Intente nuevamente: ";
         $palabra = strtoupper(trim(fgets(STDIN)));
     }
     return $palabra;
 }
+
 
 
 /**
